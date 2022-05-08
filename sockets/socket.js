@@ -1,5 +1,5 @@
 const currentPlayers = [];
-const countdownTimer = 3;
+const countdownTimer = 5;
 const maxPlayers = 4;
 const axios = require("axios");
 
@@ -21,12 +21,14 @@ const sockets = (io) => {
     });
 
     socket.on("ready", () => {
+      socket.join("game-lobby");
       if (currentPlayers.length === maxPlayers - 1) {
         console.log("Game will be full after player joins");
         currentPlayers.push(socket.id);
         io.sockets.emit("update-ready-count", currentPlayers.length);
         io.sockets.emit("game-full");
-        console.log("Player joined, game is full")
+        console.log("Player joined, game is full");
+        io.sockets.emit("set-game-countdown", countdownTimer);
       } else {
         console.log("Game is not full! Can ready!");
         currentPlayers.push(socket.id);
@@ -37,6 +39,7 @@ const sockets = (io) => {
     });
 
     socket.on("unready", () => {
+      socket.leave("game-lobby");
       currentPlayers.splice(currentPlayers.indexOf(socket.id), 1);
       console.log("Socket ID " + socket.id + " is unready");
       console.log(currentPlayers);
