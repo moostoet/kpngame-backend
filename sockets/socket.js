@@ -14,9 +14,7 @@ const sockets = (io) => {
     socket.on("disconnect", () => {
       console.log("user disconnected, removing from playerlist");
       const index = currentPlayers.indexOf(socket.id);
-      if (index > -1) {
-        currentPlayers.splice(index, 1);
-      }
+      if (index > -1) currentPlayers.splice(index, 1);
       console.log(currentPlayers);
     });
 
@@ -43,6 +41,7 @@ const sockets = (io) => {
     });
 
     socket.on("unready", () => {
+      io.sockets.emit("stop-game-countdown")
       socket.leave("game-lobby");
       currentPlayers.splice(currentPlayers.indexOf(socket.id), 1);
       console.log("Socket ID " + socket.id + " is unready");
