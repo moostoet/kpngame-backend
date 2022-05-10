@@ -7,7 +7,6 @@ const textAPI = "https://api.quotable.io/random";
 
 const sockets = (io) => {
   io.on("connection", (socket) => {
-    socket.emit("hello", "Hello world!");
     console.log("a user connected");
     io.sockets.emit("update-ready-count", currentPlayers.length);
 
