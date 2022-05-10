@@ -49,6 +49,16 @@ const sockets = (io) => {
       console.log(currentPlayers);
       io.sockets.emit("update-ready-count", currentPlayers.length);
     });
+
+    socket.on("game-start", () => {
+      console.log("Game is starting");
+      if (socket.rooms.has("game-lobby")) {
+        console.log("Socket is in room 'game-lobby'");
+        io.to(socket.id).emit("game-init");
+      } else {
+        console.log("Socket is not in room 'game-lobby'");
+      }
+    });
   });
 };
 
