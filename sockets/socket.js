@@ -1,6 +1,7 @@
 const currentPlayers = [];
 const countdownTimer = 5;
 const maxPlayers = 4;
+const isGameInProgress = false;
 const axios = require("axios");
 
 const textAPI = "https://api.quotable.io/random";
