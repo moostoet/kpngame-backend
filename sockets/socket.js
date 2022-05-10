@@ -15,6 +15,7 @@ const sockets = (io) => {
       console.log("user disconnected, removing from playerlist");
       const index = currentPlayers.indexOf(socket.id);
       if (index > -1) currentPlayers.splice(index, 1);
+      io.sockets.emit("update-ready-count", currentPlayers.length);
       console.log(currentPlayers);
     });
 
